@@ -7,7 +7,12 @@ from PIL import Image
 
 # 환경 변수 로드 (.env 파일에서 API 키 읽기)
 load_dotenv()
-api_key = os.getenv("GEMINI_API_KEY")
+
+# API 키 가져오기 (Streamlit Secrets 우선, 그 다음 환경변수)
+try:
+    api_key = st.secrets["GEMINI_API_KEY"]
+except (FileNotFoundError, KeyError):
+    api_key = os.getenv("GEMINI_API_KEY")
 
 # 페이지 설정
 st.set_page_config(
